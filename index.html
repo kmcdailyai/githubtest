@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>새벽뉴스 (테스트)</title>
+
+  <!-- ===== CSS: 꾸미기 ===== -->
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1f2937;
+      --sub: #6b7280;
+      --line: #e5e7eb;
+      --point: #c2410c;
+      --card: #f9fafb;
+    }
+    body.dark {
+      --bg: #111827;
+      --text: #f3f4f6;
+      --sub: #9ca3af;
+      --line: #374151;
+      --point: #fb923c;
+      --card: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+
+    /* 상단 */
+    header { border-bottom: 3px solid var(--text); padding: 18px 0 10px; }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .logo { font-size: 32px; font-weight: 900; letter-spacing: -1px; margin: 0; }
+    .logo span { color: var(--point); }
+    .date { color: var(--sub); font-size: 14px; }
+    #modeBtn {
+      border: 1px solid var(--line); background: var(--card); color: var(--text);
+      padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 14px;
+    }
+
+    /* 메뉴 */
+    nav { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    nav button {
+      border: none; background: none; color: var(--text); font-size: 15px;
+      padding: 6px 12px; border-radius: 6px; cursor: pointer;
+    }
+    nav button.on { background: var(--text); color: var(--bg); }
+
+    /* 머리기사 */
+    .headline { padding: 24px 0; border-bottom: 1px solid var(--line); }
+    .headline .tag { color: var(--point); font-weight: 700; font-size: 14px; }
+    .headline h2 { font-size: 28px; margin: 6px 0 10px; line-height: 1.35; }
+    .headline p { color: var(--sub); margin: 0; }
+
+    /* 기사 목록 */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 20px 0; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+    .card .tag { color: var(--point); font-size: 13px; font-weight: 700; }
+    .card h3 { margin: 4px 0 6px; font-size: 18px; line-height: 1.4; }
+    .card p { margin: 0; color: var(--sub); font-size: 14px; }
+    .card .time { margin-top: 10px; font-size: 12px; color: var(--sub); }
+
+    footer { border-top: 1px solid var(--line); padding: 20px 0 40px; color: var(--sub); font-size: 13px; text-align: center; }
+
+    @media (max-width: 600px) {
+      .logo { font-size: 26px; }
+      .headline h2 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HTML: 뼈대 ===== -->
+  <header>
+    <div class="wrap top">
+      <div>
+        <h1 class="logo">새벽<span>뉴스</span></h1>
+        <div class="date" id="today"></div>
+      </div>
+      <button id="modeBtn">🌙 다크모드</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav id="menu">
+      <button class="on" data-cat="전체">전체</button>
+      <button data-cat="사회">사회</button>
+      <button data-cat="경제">경제</button>
+      <button data-cat="IT">IT</button>
+      <button data-cat="문화">문화</button>
+    </nav>
+
+    <section class="headline">
+      <div class="tag">머리기사</div>
+      <h2>AI로 만드는 1인 언론사, 첫 홈페이지를 열다</h2>
+      <p>코딩을 몰라도 AI와 대화하며 홈페이지를 만들고, GitHub와 Cloudflare로 전 세계에 공개하는 시대가 왔다.</p>
+    </section>
+
+    <section class="grid" id="list"></section>
+  </div>
+
+  <footer>
+    © 새벽뉴스 · 이 사이트는 연습용 테스트 페이지이며 기사는 모두 예시입니다.
+  </footer>
+
+  <!-- ===== JavaScript: 동작 ===== -->
+  <script>
+    // 1) 기사 데이터 (예시)
+    const articles = [
+      { cat: "사회", title: "지역 도서관, 주말 야간 개방 시작", text: "주민 요청에 따라 토요일 밤 10시까지 문을 연다.", time: "1시간 전" },
+      { cat: "경제", title: "소상공인 온라인 판매 교육 무료 진행", text: "스마트스토어 개설부터 홍보까지 4주 과정으로 운영된다.", time: "2시간 전" },
+      { cat: "IT", title: "바이브 코딩, 비전공자도 앱을 만든다", text: "AI에게 말로 설명하면 코드를 만들어 주는 방식이 확산되고 있다.", time: "3시간 전" },
+      { cat: "문화", title: "가을 음악회, 시민공원에서 열려", text: "지역 청년 연주자들이 참여해 무료 공연을 선보인다.", time: "4시간 전" },
+      { cat: "IT", title: "무료로 웹사이트 배포하는 방법", text: "GitHub에 올리고 Cloudflare Pages와 연결하면 자동으로 공개된다.", time: "5시간 전" },
+      { cat: "사회", title: "어르신 대상 스마트폰 교실 인기", text: "사진 보내기, 영상통화 등 생활 기능을 중심으로 배운다.", time: "6시간 전" }
+    ];
+
+    // 2) 기사 목록을 화면에 그리기
+    function showArticles(category) {
+      const list = document.getElementById("list");
+      list.innerHTML = "";
+      articles
+        .filter(a => category === "전체" || a.cat === category)
+        .forEach(a => {
+          list.innerHTML += `
+            <article class="card">
+              <div class="tag">${a.cat}</div>
+              <h3>${a.title}</h3>
+              <p>${a.text}</p>
+              <div class="time">${a.time}</div>
+            </article>`;
+        });
+    }
+
+    // 3) 메뉴를 클릭하면 해당 분야 기사만 보이기 (이벤트)
+    document.querySelectorAll("#menu button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#menu button").forEach(b => b.classList.remove("on"));
+        btn.classList.add("on");
+        showArticles(btn.dataset.cat);
+      });
+    });
+
+    // 4) 다크모드 버튼
+    document.getElementById("modeBtn").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      document.getElementById("modeBtn").textContent = isDark ? "☀️ 라이트모드" : "🌙 다크모드";
+    });
+
+    // 5) 오늘 날짜 표시
+    document.getElementById("today").textContent =
+      new Date().toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric", weekday: "long" });
+
+    // 처음 열었을 때 전체 기사 보이기
+    showArticles("전체");
+  </script>
+</body>
+</html>
