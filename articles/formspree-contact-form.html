@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>서버 없이 문의 폼 만들기: Formspree로 제휴 문의 받기 | 새벽뉴스</title>
+  <meta name="description" content="서버가 없는 HTML 사이트에서도 Formspree를 쓰면 방문자의 문의를 이메일로 받을 수 있습니다. 스팸 막기와 전송 결과 표시까지 정리했습니다.">
+  <meta property="og:site_name" content="새벽뉴스">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="서버 없이 문의 폼 만들기: Formspree로 제휴 문의 받기">
+  <meta property="og:description" content="서버가 없는 HTML 사이트에서도 Formspree를 쓰면 방문자의 문의를 이메일로 받을 수 있습니다. 스팸 막기와 전송 결과 표시까지 정리했습니다.">
+  <meta property="og:url" content="https://githubtest2.pages.dev/articles/formspree-contact-form">
+  <link rel="canonical" href="https://githubtest2.pages.dev/articles/formspree-contact-form">
+  <meta name="google-adsense-account" content="ca-pub-3379650896174105">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379650896174105"
+       crossorigin="anonymous"></script>
+
+  <!-- 화면이 그려지기 전에 저장된 모드를 먼저 적용 (깜빡임 방지) -->
+  <script>
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (e) {}
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (saved === "dark" || (!saved && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrap top">
+      <div>
+        <p class="logo"><a href="/">새벽<span>뉴스</span></a></p>
+        <p class="tagline">AI와 함께 웹사이트를 직접 만들고 운영하며 배운 기록</p>
+      </div>
+      <button id="modeBtn" type="button">🌙 다크모드</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="site-nav" aria-label="주 메뉴">
+      <a href="/">홈</a>
+      <a href="/#articles">전체 글</a>
+      <a href="/about">소개</a>
+      <a href="/contact">문의</a>
+    </nav>
+
+    <article class="article">
+      <p class="crumb"><a href="/">홈</a> › 웹 제작</p>
+      <h1>서버 없이 문의 폼 만들기: Formspree로 제휴 문의 받기</h1>
+      <p class="meta">새벽뉴스 편집부 · <time datetime="2026-10-15">2026년 10월 15일</time> · 웹 제작</p>
+
+<p class="lead">GitHub와 Cloudflare Pages로 올린 사이트에는 서버가 없습니다. 그래서 방문자가 폼에 쓴 내용을 받아 줄 곳이 따로 필요한데, Formspree가 그 역할을 해 줍니다. 이 사이트의 <a href="/contact">문의 페이지</a>도 Formspree로 만들었습니다.</p>
+
+<h2>Formspree가 하는 일</h2>
+<p>Formspree에 가입해 폼을 하나 만들면 <code>https://formspree.io/f/영문숫자</code> 모양의 주소를 줍니다. 내 폼이 이 주소로 내용을 보내면, Formspree가 가입한 이메일로 전달해 줍니다.</p>
+
+<h2>폼의 뼈대</h2>
+<pre><code>&lt;form id="contactForm" action="https://formspree.io/f/내폼주소" method="POST"&gt;
+  &lt;input name="이름" type="text" required&gt;
+  &lt;input name="email" type="email" required&gt;
+  &lt;textarea name="문의 내용" required&gt;&lt;/textarea&gt;
+
+  &lt;!-- 받는 메일의 제목 --&gt;
+  &lt;input type="hidden" name="_subject" value="[새벽뉴스] 새 제휴 문의"&gt;
+  &lt;!-- 스팸 로봇용 숨은 칸: 사람에게는 보이지 않음 --&gt;
+  &lt;input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off"&gt;
+
+  &lt;button type="submit"&gt;문의 보내기&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+<ul>
+<li><code>name</code>에 쓴 이름이 받은 메일의 항목 이름이 됩니다. 한국어로 써도 됩니다.</li>
+<li>이메일 칸은 <code>name="email"</code>로 두면 Formspree가 답장 주소로 알아봅니다.</li>
+<li><code>required</code>를 붙인 칸은 비우면 브라우저가 전송을 막습니다.</li>
+<li><code>_gotcha</code>는 사람 눈에는 보이지 않는 칸입니다. 스팸 로봇은 모든 칸을 채우는 경향이 있어서, 이 칸이 채워진 제출은 스팸으로 걸러집니다.</li>
+</ul>
+
+<h2>페이지를 떠나지 않고 보내기</h2>
+<p>폼을 그대로 보내면 Formspree의 감사 페이지로 이동합니다. 자바스크립트로 대신 보내면 내 사이트에 머문 채 결과만 보여 줄 수 있습니다.</p>
+<pre><code>contactForm.addEventListener("submit", async e =&gt; {
+  e.preventDefault();                       // 페이지 이동 막기
+  try {
+    const res = await fetch(contactForm.action, {
+      method: "POST",
+      body: new FormData(contactForm),
+      headers: { Accept: "application/json" }
+    });
+    if (!res.ok) throw new Error();
+    contactForm.reset();                    // 성공하면 칸 비우기
+    formMsg.textContent = "문의가 접수되었습니다.";
+  } catch (err) {
+    formMsg.textContent = "전송에 실패했습니다.";  // 실패하면 쓴 내용은 그대로 둠
+  }
+});</code></pre>
+
+<p>실패했을 때 칸을 비우지 않는 것이 작지만 중요한 배려입니다. 긴 문의를 쓴 사람이 처음부터 다시 쓰지 않아도 됩니다.</p>
+
+<h2>확인할 점</h2>
+<ul>
+<li>처음 받은 제출은 Formspree가 가입한 메일 주소를 인증해 달라고 할 수 있습니다. 메일함을 확인하세요.</li>
+<li>무료 요금제에는 한 달에 받을 수 있는 제출 수에 한도가 있습니다. 자세한 수치는 Formspree 요금 안내에서 확인하세요.</li>
+<li>폼으로 이름과 이메일을 받으므로 <a href="/privacy">개인정보처리방침</a>에 무엇을 왜 받는지 적어 두어야 합니다.</li>
+</ul>
+
+      <section class="related">
+        <h2>함께 읽으면 좋은 글</h2>
+        <ul>
+<li><a href="/articles/first-homepage">코딩을 몰라도 홈페이지를 만들 수 있을까: HTML, CSS, 자바스크립트의 역할</a></li>
+<li><a href="/articles/dark-mode">다크모드 제대로 만들기: 선택 기억, 기기 설정 따르기, 깜빡임 막기</a></li>
+<li><a href="/articles/disqus-comments">정적 사이트에 댓글 달기: Disqus 설정과 다크모드 문제 해결</a></li>
+        </ul>
+      </section>
+    </article>
+
+    <!-- 댓글 (Disqus) -->
+    <section class="comments" id="comments">
+      <h2>댓글</h2>
+      <div id="disqus_thread"></div>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+    <script>
+      // 글마다 대표 주소와 고유 이름을 고정해 댓글이 갈라지지 않게 함
+      var disqus_config = function () {
+        this.page.url = "https://githubtest2.pages.dev/articles/formspree-contact-form";
+        this.page.identifier = "formspree-contact-form";
+      };
+      (function () {
+        var d = document, s = d.createElement("script");
+        s.src = "https://test-pfldoymxti.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+      // Disqus는 처음 열릴 때의 배경색으로 글자색을 정하므로, 모드를 바꾸면 댓글 창을 다시 불러옴
+      window.reloadComments = function () {
+        if (!window.DISQUS) return;
+        setTimeout(function () { DISQUS.reset({ reload: true, config: disqus_config }); }, 350);
+      };
+    </script>
+  </div>
+
+  <footer>
+    <nav aria-label="사이트 정보">
+      <a href="/about">소개</a>
+      <a href="/privacy">개인정보처리방침</a>
+      <a href="/contact">문의</a>
+    </nav>
+    © 2026 새벽뉴스. 직접 해 본 것만 씁니다.
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>

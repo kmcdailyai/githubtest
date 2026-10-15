@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 | 새벽뉴스</title>
+  <meta name="description" content="새벽뉴스가 받는 정보, 외부 서비스, 광고 쿠키, 보관 기간과 방문자의 권리를 안내합니다.">
+  <meta property="og:site_name" content="새벽뉴스">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="개인정보처리방침">
+  <meta property="og:description" content="새벽뉴스가 받는 정보, 외부 서비스, 광고 쿠키, 보관 기간과 방문자의 권리를 안내합니다.">
+  <meta property="og:url" content="https://githubtest2.pages.dev/privacy">
+  <link rel="canonical" href="https://githubtest2.pages.dev/privacy">
+  <meta name="google-adsense-account" content="ca-pub-3379650896174105">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379650896174105"
+       crossorigin="anonymous"></script>
+
+  <!-- 화면이 그려지기 전에 저장된 모드를 먼저 적용 (깜빡임 방지) -->
+  <script>
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (e) {}
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (saved === "dark" || (!saved && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrap top">
+      <div>
+        <p class="logo"><a href="/">새벽<span>뉴스</span></a></p>
+        <p class="tagline">AI와 함께 웹사이트를 직접 만들고 운영하며 배운 기록</p>
+      </div>
+      <button id="modeBtn" type="button">🌙 다크모드</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="site-nav" aria-label="주 메뉴">
+      <a href="/">홈</a>
+      <a href="/#articles">전체 글</a>
+      <a href="/about">소개</a>
+      <a href="/contact">문의</a>
+    </nav>
+
+    <article class="article">
+      <h1>개인정보처리방침</h1>
+      <p class="meta">시행일: 2026년 10월 15일</p>
+      <p>새벽뉴스(이하 "사이트")는 방문자의 개인정보를 소중히 다루며, 어떤 정보를 왜 받고 어떻게 다루는지 아래와 같이 알립니다.</p>
+
+      <h2>1. 받는 정보와 목적</h2>
+      <table>
+        <tr><th>경로</th><th>받는 정보</th><th>목적</th></tr>
+        <tr><td>문의 폼</td><td>이름 또는 단체명, 이메일, 연락처(선택), 문의 종류, 문의 내용</td><td>문의 확인과 답변</td></tr>
+        <tr><td>댓글</td><td>댓글 작성 시 Disqus에 제공하는 정보</td><td>댓글 게시와 관리</td></tr>
+      </table>
+      <p>사이트는 회원가입을 받지 않으며, 위 경우 외에 운영자가 직접 개인정보를 모으지 않습니다.</p>
+
+      <h2>2. 정보를 처리하는 외부 서비스</h2>
+      <ul>
+        <li><strong>Formspree</strong>: 문의 폼 내용을 받아 운영자의 이메일로 전달합니다.</li>
+        <li><strong>Disqus</strong>: 댓글 작성, 로그인, 저장을 처리합니다. 댓글 정보는 Disqus의 개인정보처리방침을 따릅니다.</li>
+        <li><strong>Google AdSense</strong>: 사이트에 광고를 게재합니다.</li>
+        <li><strong>Cloudflare</strong>: 사이트를 호스팅하며, 서비스 운영과 보안을 위해 접속 기록을 처리할 수 있습니다.</li>
+      </ul>
+
+      <h2>3. 쿠키와 광고</h2>
+      <ul>
+        <li>Google을 포함한 제3자 공급업체는 쿠키를 사용하여 방문자가 이 사이트나 다른 웹사이트를 이전에 방문한 기록을 바탕으로 광고를 게재합니다.</li>
+        <li>Google은 광고 쿠키를 사용하여 방문자가 이 사이트나 다른 사이트를 방문한 기록을 바탕으로 방문자와 그 사용자에게 광고를 게재할 수 있습니다.</li>
+        <li>방문자는 <a href="https://myadcenter.google.com/" target="_blank" rel="noopener">Google 내 광고 센터</a>에서 맞춤 광고를 끌 수 있습니다. 다른 제3자 공급업체의 맞춤 광고 쿠키는 <a href="https://www.aboutads.info/" target="_blank" rel="noopener">aboutads.info</a>에서 끌 수 있습니다.</li>
+        <li>브라우저 설정에서 쿠키를 거부할 수 있으나, 일부 기능(댓글 로그인 등)이 제한될 수 있습니다.</li>
+      </ul>
+
+      <h2>4. 브라우저에 저장하는 값</h2>
+      <p>다크모드·라이트모드 선택을 기억하기 위해 방문자의 브라우저(localStorage)에 <code>theme</code> 값 하나를 저장합니다. 이 값은 운영자에게 전송되지 않으며, 브라우저의 사이트 데이터 삭제로 지울 수 있습니다.</p>
+
+      <h2>5. 보관 기간</h2>
+      <p>문의로 받은 정보는 문의 처리가 끝나면 지체 없이 삭제합니다. 다만 같은 내용의 문의가 이어지는 경우 처리에 필요한 기간 동안 보관할 수 있습니다.</p>
+
+      <h2>6. 방문자의 권리</h2>
+      <p>방문자는 자신이 보낸 문의 정보의 확인, 수정, 삭제를 요청할 수 있습니다. <a href="/contact">문의 페이지</a>로 요청해 주시면 지체 없이 처리합니다.</p>
+
+      <h2>7. 방침의 변경</h2>
+      <p>이 방침이 바뀌면 이 페이지에 시행일과 함께 알립니다.</p>
+    </article>
+  </div>
+
+  <footer>
+    <nav aria-label="사이트 정보">
+      <a href="/about">소개</a>
+      <a href="/privacy">개인정보처리방침</a>
+      <a href="/contact">문의</a>
+    </nav>
+    © 2026 새벽뉴스. 직접 해 본 것만 씁니다.
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>

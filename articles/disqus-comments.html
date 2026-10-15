@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>정적 사이트에 댓글 달기: Disqus 설정과 다크모드 문제 해결 | 새벽뉴스</title>
+  <meta name="description" content="서버 없는 사이트에 Disqus로 댓글을 붙이고, 주소가 조금씩 달라도 댓글이 갈라지지 않게 하는 설정과 다크모드 전환 문제를 정리했습니다.">
+  <meta property="og:site_name" content="새벽뉴스">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="정적 사이트에 댓글 달기: Disqus 설정과 다크모드 문제 해결">
+  <meta property="og:description" content="서버 없는 사이트에 Disqus로 댓글을 붙이고, 주소가 조금씩 달라도 댓글이 갈라지지 않게 하는 설정과 다크모드 전환 문제를 정리했습니다.">
+  <meta property="og:url" content="https://githubtest2.pages.dev/articles/disqus-comments">
+  <link rel="canonical" href="https://githubtest2.pages.dev/articles/disqus-comments">
+  <meta name="google-adsense-account" content="ca-pub-3379650896174105">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379650896174105"
+       crossorigin="anonymous"></script>
+
+  <!-- 화면이 그려지기 전에 저장된 모드를 먼저 적용 (깜빡임 방지) -->
+  <script>
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (e) {}
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (saved === "dark" || (!saved && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrap top">
+      <div>
+        <p class="logo"><a href="/">새벽<span>뉴스</span></a></p>
+        <p class="tagline">AI와 함께 웹사이트를 직접 만들고 운영하며 배운 기록</p>
+      </div>
+      <button id="modeBtn" type="button">🌙 다크모드</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="site-nav" aria-label="주 메뉴">
+      <a href="/">홈</a>
+      <a href="/#articles">전체 글</a>
+      <a href="/about">소개</a>
+      <a href="/contact">문의</a>
+    </nav>
+
+    <article class="article">
+      <p class="crumb"><a href="/">홈</a> › 웹 제작</p>
+      <h1>정적 사이트에 댓글 달기: Disqus 설정과 다크모드 문제 해결</h1>
+      <p class="meta">새벽뉴스 편집부 · <time datetime="2026-10-15">2026년 10월 15일</time> · 웹 제작</p>
+
+<p class="lead">댓글은 글을 저장할 서버가 필요해서 HTML만으로는 만들 수 없습니다. Disqus는 댓글 저장과 로그인을 대신 맡아 주는 서비스로, 받은 코드 몇 줄을 붙이면 됩니다. 이 사이트의 글 아래 댓글이 Disqus입니다.</p>
+
+<h2>받은 코드에서 꼭 손볼 부분</h2>
+<p>Disqus가 주는 코드에는 주석으로 꺼져 있는 설정이 있습니다. 이 부분을 켜고 채우는 것이 중요합니다.</p>
+<pre><code>var disqus_config = function () {
+  this.page.url = "https://githubtest2.pages.dev/articles/disqus-comments";
+  this.page.identifier = "disqus-comments";
+};</code></pre>
+
+<ul>
+<li><strong>page.url</strong>: 이 글의 대표 주소입니다. 주소 뒤에 <code>#comments</code>나 <code>?v=2</code>가 붙어 들어와도 같은 댓글을 보여 주게 합니다.</li>
+<li><strong>page.identifier</strong>: 이 글만의 고유 이름입니다. 나중에 주소가 바뀌어도 이 값이 같으면 기존 댓글이 이어집니다.</li>
+</ul>
+<p>이 값을 정하지 않으면 Disqus는 지금 브라우저 주소를 기준으로 삼습니다. 그러면 같은 글인데도 주소가 조금 다르다는 이유로 댓글 창이 여러 개로 갈라질 수 있습니다. 글마다 다른 값을 써야 한다는 점도 잊지 마세요.</p>
+
+<h2>다크모드로 바꾸면 댓글 글씨가 안 보이는 문제</h2>
+<p>Disqus는 처음 열릴 때 페이지 배경색을 보고 글자색을 정합니다. 그래서 밝은 화면에서 연 뒤 다크모드로 바꾸면, 어두운 배경에 어두운 글씨가 남아 읽기 어려워집니다. 모드를 바꿀 때 댓글 창을 다시 불러오도록 해서 해결했습니다.</p>
+<pre><code>function reloadComments() {
+  if (!window.DISQUS) return;
+  // 배경색이 바뀌는 0.3초를 기다린 뒤 다시 불러오기
+  setTimeout(() =&gt; DISQUS.reset({ reload: true, config: disqus_config }), 350);
+}</code></pre>
+
+<p>배경색이 0.3초 동안 부드럽게 바뀌도록 해 두었기 때문에, 색이 다 바뀐 뒤에 다시 불러와야 Disqus가 새 배경색을 제대로 읽습니다.</p>
+
+<h2>붙이기 전에 생각할 것</h2>
+<ul>
+<li>댓글은 글이 있는 페이지에만 둡니다. 이 사이트도 홈과 문의 페이지에는 댓글을 두지 않았습니다.</li>
+<li>Disqus는 댓글 쓴 사람의 정보를 Disqus 쪽에서 처리합니다. <a href="/privacy">개인정보처리방침</a>에 이 사실을 적어 두었습니다.</li>
+<li>요금제에 따라 댓글 영역에 Disqus 자체 광고가 붙을 수 있습니다. 사이트 광고와 겹치지 않는지 확인하세요.</li>
+</ul>
+
+      <section class="related">
+        <h2>함께 읽으면 좋은 글</h2>
+        <ul>
+<li><a href="/articles/first-homepage">코딩을 몰라도 홈페이지를 만들 수 있을까: HTML, CSS, 자바스크립트의 역할</a></li>
+<li><a href="/articles/dark-mode">다크모드 제대로 만들기: 선택 기억, 기기 설정 따르기, 깜빡임 막기</a></li>
+<li><a href="/articles/formspree-contact-form">서버 없이 문의 폼 만들기: Formspree로 제휴 문의 받기</a></li>
+        </ul>
+      </section>
+    </article>
+
+    <!-- 댓글 (Disqus) -->
+    <section class="comments" id="comments">
+      <h2>댓글</h2>
+      <div id="disqus_thread"></div>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+    <script>
+      // 글마다 대표 주소와 고유 이름을 고정해 댓글이 갈라지지 않게 함
+      var disqus_config = function () {
+        this.page.url = "https://githubtest2.pages.dev/articles/disqus-comments";
+        this.page.identifier = "disqus-comments";
+      };
+      (function () {
+        var d = document, s = d.createElement("script");
+        s.src = "https://test-pfldoymxti.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+      // Disqus는 처음 열릴 때의 배경색으로 글자색을 정하므로, 모드를 바꾸면 댓글 창을 다시 불러옴
+      window.reloadComments = function () {
+        if (!window.DISQUS) return;
+        setTimeout(function () { DISQUS.reset({ reload: true, config: disqus_config }); }, 350);
+      };
+    </script>
+  </div>
+
+  <footer>
+    <nav aria-label="사이트 정보">
+      <a href="/about">소개</a>
+      <a href="/privacy">개인정보처리방침</a>
+      <a href="/contact">문의</a>
+    </nav>
+    © 2026 새벽뉴스. 직접 해 본 것만 씁니다.
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>

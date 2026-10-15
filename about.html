@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>소개 | 새벽뉴스</title>
+  <meta name="description" content="새벽뉴스는 비전공자가 AI와 함께 웹사이트를 만들고 운영하며 배운 것을 기록하는 1인 미디어입니다.">
+  <meta property="og:site_name" content="새벽뉴스">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="소개">
+  <meta property="og:description" content="새벽뉴스는 비전공자가 AI와 함께 웹사이트를 만들고 운영하며 배운 것을 기록하는 1인 미디어입니다.">
+  <meta property="og:url" content="https://githubtest2.pages.dev/about">
+  <link rel="canonical" href="https://githubtest2.pages.dev/about">
+  <meta name="google-adsense-account" content="ca-pub-3379650896174105">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379650896174105"
+       crossorigin="anonymous"></script>
+
+  <!-- 화면이 그려지기 전에 저장된 모드를 먼저 적용 (깜빡임 방지) -->
+  <script>
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (e) {}
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (saved === "dark" || (!saved && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrap top">
+      <div>
+        <p class="logo"><a href="/">새벽<span>뉴스</span></a></p>
+        <p class="tagline">AI와 함께 웹사이트를 직접 만들고 운영하며 배운 기록</p>
+      </div>
+      <button id="modeBtn" type="button">🌙 다크모드</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="site-nav" aria-label="주 메뉴">
+      <a href="/">홈</a>
+      <a href="/#articles">전체 글</a>
+      <a href="/about" class="on">소개</a>
+      <a href="/contact">문의</a>
+    </nav>
+
+    <article class="article">
+      <h1>새벽뉴스 소개</h1>
+      <p class="lead">새벽뉴스는 코딩을 전공하지 않은 운영자가 AI와 함께 웹사이트를 직접 만들고 운영하며 배운 것을 기록하는 1인 미디어입니다.</p>
+
+      <h2>무엇을 다루나요</h2>
+      <ul>
+        <li><strong>웹 제작</strong>: HTML·CSS·자바스크립트 기초, 다크모드, 문의 폼, 댓글처럼 사이트에 기능을 더하는 방법</li>
+        <li><strong>배포·운영</strong>: GitHub와 Cloudflare Pages로 사이트를 공개하고 고쳐 나가는 방법</li>
+        <li><strong>수익화</strong>: 구글 애드센스 신청과 운영에서 겪은 일</li>
+      </ul>
+
+      <h2>글을 쓰는 원칙</h2>
+      <ol>
+        <li><strong>직접 해 본 것만 씁니다.</strong> 이 사이트에 실제로 적용하고 결과를 확인한 내용을 바탕으로 합니다.</li>
+        <li><strong>출처를 밝힙니다.</strong> 다른 곳의 설명을 참고했다면 원문 링크를 답니다.</li>
+        <li><strong>틀린 내용은 고칩니다.</strong> 잘못된 부분을 알려 주시면 확인 후 본문을 고치고 고친 사실을 적습니다.</li>
+      </ol>
+
+      <h2>AI 활용에 대해</h2>
+      <p>새벽뉴스는 사이트 코드 작성과 글 초안 작성에 AI(Anthropic의 Claude)를 활용합니다. 모든 글은 운영자가 이 사이트에서 직접 실행하고 확인한 과정을 바탕으로 하며, 운영자가 검토한 뒤 게시합니다.</p>
+
+      <h2>이 사이트는 이렇게 만들어졌습니다</h2>
+      <p>HTML·CSS·자바스크립트 파일을 GitHub에 올리고 Cloudflare Pages로 공개합니다. 문의는 Formspree, 댓글은 Disqus를 사용하며, 운영비 마련을 위해 구글 애드센스 광고를 게재합니다.</p>
+
+      <h2>연락하기</h2>
+      <p>제휴, 제안, 오류 제보는 <a href="/contact">문의 페이지</a>로 보내 주세요.</p>
+    </article>
+  </div>
+
+  <footer>
+    <nav aria-label="사이트 정보">
+      <a href="/about">소개</a>
+      <a href="/privacy">개인정보처리방침</a>
+      <a href="/contact">문의</a>
+    </nav>
+    © 2026 새벽뉴스. 직접 해 본 것만 씁니다.
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>

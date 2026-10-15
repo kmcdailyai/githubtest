@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>코딩을 몰라도 홈페이지를 만들 수 있을까: HTML, CSS, 자바스크립트의 역할 | 새벽뉴스</title>
+  <meta name="description" content="AI와 대화하며 첫 홈페이지를 만들어 보니, 세 가지 언어의 역할만 알아도 무엇을 어떻게 부탁할지가 보였습니다.">
+  <meta property="og:site_name" content="새벽뉴스">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="코딩을 몰라도 홈페이지를 만들 수 있을까: HTML, CSS, 자바스크립트의 역할">
+  <meta property="og:description" content="AI와 대화하며 첫 홈페이지를 만들어 보니, 세 가지 언어의 역할만 알아도 무엇을 어떻게 부탁할지가 보였습니다.">
+  <meta property="og:url" content="https://githubtest2.pages.dev/articles/first-homepage">
+  <link rel="canonical" href="https://githubtest2.pages.dev/articles/first-homepage">
+  <meta name="google-adsense-account" content="ca-pub-3379650896174105">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3379650896174105"
+       crossorigin="anonymous"></script>
+
+  <!-- 화면이 그려지기 전에 저장된 모드를 먼저 적용 (깜빡임 방지) -->
+  <script>
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (e) {}
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (saved === "dark" || (!saved && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <header>
+    <div class="wrap top">
+      <div>
+        <p class="logo"><a href="/">새벽<span>뉴스</span></a></p>
+        <p class="tagline">AI와 함께 웹사이트를 직접 만들고 운영하며 배운 기록</p>
+      </div>
+      <button id="modeBtn" type="button">🌙 다크모드</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="site-nav" aria-label="주 메뉴">
+      <a href="/">홈</a>
+      <a href="/#articles">전체 글</a>
+      <a href="/about">소개</a>
+      <a href="/contact">문의</a>
+    </nav>
+
+    <article class="article">
+      <p class="crumb"><a href="/">홈</a> › 웹 제작</p>
+      <h1>코딩을 몰라도 홈페이지를 만들 수 있을까: HTML, CSS, 자바스크립트의 역할</h1>
+      <p class="meta">새벽뉴스 편집부 · <time datetime="2026-10-14">2026년 10월 14일</time> · 웹 제작</p>
+
+<p class="lead">코딩을 배운 적 없이 AI와 대화하면서 이 사이트를 만들었습니다. 처음에는 AI가 내놓는 코드가 외계어처럼 보였지만, 웹페이지가 세 가지 재료로 이루어진다는 것을 알고 나서는 무엇을 어떻게 부탁해야 할지 감이 잡혔습니다.</p>
+
+<h2>웹페이지를 이루는 세 가지 재료</h2>
+<table>
+<tr><th>언어</th><th>역할</th><th>비유</th><th>이 사이트에서의 예</th></tr>
+<tr><td>HTML</td><td>내용과 구조</td><td>집의 뼈대</td><td>제목, 메뉴, 글 목록, 문의 폼</td></tr>
+<tr><td>CSS</td><td>모양과 배치</td><td>벽지와 가구</td><td>글자 크기, 색, 카드 모양, 휴대폰 화면 배치</td></tr>
+<tr><td>자바스크립트</td><td>동작</td><td>전기와 스위치</td><td>다크모드 버튼, 분류 버튼, 폼 전송</td></tr>
+</table>
+<p>이렇게 나눠 보면 요청도 나눠서 할 수 있습니다. "버튼 색을 바꿔 줘"는 CSS, "버튼을 누르면 목록이 바뀌게 해 줘"는 자바스크립트 일입니다.</p>
+
+<h2>가장 작은 홈페이지</h2>
+<p>아래 몇 줄만 <code>index.html</code>로 저장해 브라우저로 열어도 홈페이지가 됩니다.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;나의 첫 홈페이지&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: sans-serif; max-width: 700px; margin: 0 auto; padding: 16px; }
+    h1 { color: #c2410c; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;안녕하세요&lt;/h1&gt;
+  &lt;button id="hello"&gt;눌러 보세요&lt;/button&gt;
+  &lt;script&gt;
+    document.getElementById("hello").addEventListener("click", () =&gt; alert("반갑습니다!"));
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+<p><code>&lt;style&gt;</code> 안이 CSS, <code>&lt;script&gt;</code> 안이 자바스크립트, 나머지가 HTML입니다. 처음에는 이렇게 한 파일에 모두 넣어도 됩니다.</p>
+
+<h2>페이지가 늘어나면 파일을 나눈다</h2>
+<p>처음 만든 사이트는 <code>index.html</code> 한 장이었습니다. 소개, 개인정보처리방침, 글 페이지가 생기면서 모든 페이지가 같은 디자인과 같은 다크모드 버튼을 써야 했고, 그래서 공통 부분을 따로 뺐습니다.</p>
+<ul>
+<li><code>style.css</code>: 모든 페이지가 함께 쓰는 디자인</li>
+<li><code>site.js</code>: 다크모드 버튼, 분류 버튼, 문의 폼 같은 공통 동작</li>
+</ul>
+<p>이제 버튼 색을 바꾸려면 <code>style.css</code> 한 곳만 고치면 모든 페이지에 반영됩니다.</p>
+
+<h2>휴대폰에서도 보기 좋게</h2>
+<p>두 가지가 핵심이었습니다. 첫째, <code>&lt;head&gt;</code>에 <code>viewport</code> 메타 태그를 넣어야 휴대폰이 화면을 억지로 축소하지 않습니다. 둘째, CSS의 미디어 쿼리로 좁은 화면에서만 다른 규칙을 적용합니다.</p>
+<pre><code>@media (max-width: 600px) {
+  .logo { font-size: 26px; }   /* 휴대폰에서는 로고를 조금 작게 */
+}</code></pre>
+
+
+<h2>AI에게 부탁할 때 효과가 있었던 방법</h2>
+<ol>
+<li><strong>무엇을, 어디에, 어떤 모습으로</strong>를 함께 말합니다. "폼 만들어 줘"보다 "페이지 맨 아래에 이름, 이메일, 문의 내용을 받는 제휴 문의 폼을 만들어 줘"가 훨씬 정확한 결과를 냅니다.</li>
+<li><strong>한 번에 하나씩</strong> 요청합니다. 여러 기능을 한꺼번에 부탁하면 어디서 문제가 생겼는지 찾기 어렵습니다.</li>
+<li><strong>바뀐 결과를 바로 브라우저로 확인</strong>합니다. 휴대폰 화면 크기와 다크모드도 함께 봅니다.</li>
+<li><strong>코드에 한국어 주석을 달아 달라</strong>고 부탁합니다. 나중에 직접 고칠 때 어디를 봐야 할지 알 수 있습니다.</li>
+</ol>
+<div class="note"><p>AI가 만든 코드라도 "이 줄은 무슨 일을 하나요?"라고 물어보며 이해하려고 노력하는 편이 결국 빨랐습니다. 이해한 만큼 더 정확하게 부탁할 수 있기 때문입니다.</p></div>
+
+      <section class="related">
+        <h2>함께 읽으면 좋은 글</h2>
+        <ul>
+<li><a href="/articles/dark-mode">다크모드 제대로 만들기: 선택 기억, 기기 설정 따르기, 깜빡임 막기</a></li>
+<li><a href="/articles/formspree-contact-form">서버 없이 문의 폼 만들기: Formspree로 제휴 문의 받기</a></li>
+<li><a href="/articles/disqus-comments">정적 사이트에 댓글 달기: Disqus 설정과 다크모드 문제 해결</a></li>
+        </ul>
+      </section>
+    </article>
+
+    <!-- 댓글 (Disqus) -->
+    <section class="comments" id="comments">
+      <h2>댓글</h2>
+      <div id="disqus_thread"></div>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </section>
+    <script>
+      // 글마다 대표 주소와 고유 이름을 고정해 댓글이 갈라지지 않게 함
+      var disqus_config = function () {
+        this.page.url = "https://githubtest2.pages.dev/articles/first-homepage";
+        this.page.identifier = "first-homepage";
+      };
+      (function () {
+        var d = document, s = d.createElement("script");
+        s.src = "https://test-pfldoymxti.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+      // Disqus는 처음 열릴 때의 배경색으로 글자색을 정하므로, 모드를 바꾸면 댓글 창을 다시 불러옴
+      window.reloadComments = function () {
+        if (!window.DISQUS) return;
+        setTimeout(function () { DISQUS.reset({ reload: true, config: disqus_config }); }, 350);
+      };
+    </script>
+  </div>
+
+  <footer>
+    <nav aria-label="사이트 정보">
+      <a href="/about">소개</a>
+      <a href="/privacy">개인정보처리방침</a>
+      <a href="/contact">문의</a>
+    </nav>
+    © 2026 새벽뉴스. 직접 해 본 것만 씁니다.
+  </footer>
+
+  <script src="/site.js"></script>
+</body>
+</html>
