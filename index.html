@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>새벽뉴스 (테스트)</title>
 
+  <!-- 화면이 그려지기 전에 저장된 모드를 먼저 적용 (깜빡임 방지) -->
+  <script>
+    (function () {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (e) {}
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (saved === "dark" || (!saved && prefersDark)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+
   <!-- ===== CSS: 꾸미기 ===== -->
   <style>
     :root {
@@ -15,7 +27,7 @@
       --point: #c2410c;
       --card: #f9fafb;
     }
-    body.dark {
+    html.dark {
       --bg: #111827;
       --text: #f3f4f6;
       --sub: #9ca3af;
@@ -30,7 +42,9 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
     }
+    .card, #modeBtn { transition: background 0.3s, border-color 0.3s, color 0.3s; }
     .wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
 
     /* 상단 */
@@ -147,12 +161,33 @@
       });
     });
 
-    // 4) 다크모드 버튼
-    document.getElementById("modeBtn").addEventListener("click", () => {
-      document.body.classList.toggle("dark");
-      const isDark = document.body.classList.contains("dark");
-      document.getElementById("modeBtn").textContent = isDark ? "☀️ 라이트모드" : "🌙 다크모드";
+    // 4) 다크모드 / 라이트모드 버튼
+    //    - 누르면 모드가 바뀌고, 선택한 모드를 브라우저에 저장해 다음 방문에도 유지
+    //    - 저장된 선택이 없으면 휴대폰·컴퓨터의 기기 설정(다크/라이트)을 따름
+    const modeBtn = document.getElementById("modeBtn");
+
+    function updateModeBtn() {
+      const isDark = document.documentElement.classList.contains("dark");
+      modeBtn.textContent = isDark ? "☀️ 라이트모드" : "🌙 다크모드";
+    }
+
+    modeBtn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      try { localStorage.setItem("theme", isDark ? "dark" : "light"); } catch (e) {}
+      updateModeBtn();
     });
+
+    // 사용자가 직접 고른 적이 없으면, 기기 설정이 바뀔 때 따라 바뀜
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+      let saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (err) {}
+      if (!saved) {
+        document.documentElement.classList.toggle("dark", e.matches);
+        updateModeBtn();
+      }
+    });
+
+    updateModeBtn();
 
     // 5) 오늘 날짜 표시
     document.getElementById("today").textContent =
